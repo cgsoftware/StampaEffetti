@@ -16,7 +16,9 @@ class stampa_effetti(osv.osv_memory):
     _columns = {
                 'dadata': fields.date('Da data scadenza', required=True),
                 'adata': fields.date('A data scadenza', required=True),
-                'ord': fields.selection(  (('D', 'Ordine per Data'), ('E', 'Ordine per numero effetto')), 'Tipo di Ordinamento')     
+                'ord': fields.selection(  (('D', 'Ordine per Data'), ('E', 'Ordine per numero')), 'Tipo di Ordinamento'),
+
+         
     }
     
     def _build_contexts(self, cr, uid, ids, data, context=None):
@@ -85,10 +87,11 @@ class stampa_effetti(osv.osv_memory):
                 if Primo:
                     Primo = False
                     DtIni = ordine['data_scadenza']
-                    NrIni = ordine['name']
+                    
                                     
                 DtFin = ordine['data_scadenza']
-                anr = ordine['id']        
+                anr = ordine['id']    
+                    
                 ord_cliente  = False
                 ord_data = False
         order_method = False             
@@ -106,7 +109,9 @@ class stampa_distinte(osv.osv_memory):
     _columns = {
                 'dadata': fields.date('Da data scadenza', required=True),
                 'adata': fields.date('A data scadenza', required=True),
-                'ord': fields.selection(  (('D', 'Ordine per Data'), ('E', 'Ordine per numero effetto')), 'Tipo di Ordinamento')     
+                'ord': fields.selection(  (('D', 'Ordine per Data'), ('E', 'Ordine per numero effetto')), 'Tipo di Ordinamento'),
+                'name':fields.char('Numero',size=30,required=True),
+                     
     }
     
     def _build_contexts(self, cr, uid, ids, data, context=None):
@@ -115,7 +120,7 @@ class stampa_distinte(osv.osv_memory):
             context = {}
         result = {}
         result = {'dadata':data['form']['dadata'],'adata':data['form']['adata'], 
-                  'order_method':data['form']['ord']}
+                  'order_method':data['form']['ord'],  'name':data['form']['name']}
         return result
         
 
@@ -133,13 +138,13 @@ class stampa_distinte(osv.osv_memory):
 
             return {
                     'type': 'ir.actions.report.xml',
-                    'report_name': 'EffettiData',
+                    'report_name': 'effetti_data',
                     'datas': data,
                    }
         else:
             return {
                     'type': 'ir.actions.report.xml',
-                    'report_name': 'Effetti',
+                    'report_name': 'effetti',
                     'datas': data,
                     }
  
@@ -152,7 +157,7 @@ class stampa_distinte(osv.osv_memory):
         data = {}
         data['ids'] = context.get('active_ids', [])
         data['model'] = context.get('active_model', 'ir.ui.menu')
-        data['form'] = self.read(cr, uid, ids, ['dadata', 'adata', 'ord'])[0]
+        data['form'] = self.read(cr, uid, ids, ['dadata', 'adata', 'ord', 'name'])[0]
         used_context = self._build_contexts(cr, uid, ids, data, context=context)
         data['form']['parameters'] = used_context
         return self._print_report(cr, uid, ids, data, context=context)
@@ -175,17 +180,18 @@ class stampa_distinte(osv.osv_memory):
                 if Primo:
                     Primo = False
                     DtIni = ordine['data_scadenza']
-                    NrIni = ordine['name']
+                    name = ordine['distinta']
                                     
                 DtFin = ordine['data_scadenza']
                 anr = ordine['id']        
                 ord_cliente  = False
                 ord_data = False
+                name = ordine['distinta']
         order_method = False             
         
-        return{'dadata':DtIni, 'adata':DtFin, 'ord':order_method}
+        return{'dadata':DtIni, 'adata':DtFin, 'ord':order_method, 'name':name}
 
-    
+
 
     
 stampa_distinte() 

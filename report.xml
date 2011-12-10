@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<openerp>
+<data >
+
+	<record id="report_distine_data" model="ir.actions.report.xml">
+        <field name="name">Stampa Distinte</field>
+        <field name="type">ir.actions.report.xml</field>
+        <field name="model">effetti</field>
+        <field name="report_name">DistinteData</field>
+        <field name="report_rml">StampaEffetti/report/effetti_data.jrxml</field>
+        <field name="report_type">pdf</field>
+        <field name="jasper_report">True</field>
+        <field name="jasper_output">pdf</field>
+	</record>
+	
+	<record id="report_distinte" model="ir.actions.report.xml">
+        <field name="name">Stampa Distinte</field>
+        <field name="type">ir.actions.report.xml</field>
+        <field name="model">effetti</field>
+        <field name="report_name">Distinte</field>
+        <field name="report_rml">StampaEffetti/report/effetti.jrxml</field>
+        <field name="report_type">pdf</field>
+        <field name="jasper_report">True</field>
+        <field name="jasper_output">pdf</field>
+    </record>
+    <record id="report_effetti_data" model="ir.actions.report.xml">
+        <field name="name">Stampa Effetti</field>
+        <field name="type">ir.actions.report.xml</field>
+        <field name="model">effetti</field>
+        <field name="report_name">effetti_data</field>
+        <field name="report_rml">StampaEffetti/report/distinta_data.jrxml</field>
+        <field name="report_type">pdf</field>
+        <field name="jasper_report">True</field>
+        <field name="jasper_output">pdf</field>
+	</record>
+	
+	<record id="report_effetti" model="ir.actions.report.xml">
+		<field name="name">Stampa Effetti</field>
+		<field name="type">ir.actions.report.xml</field>
+		<field name="model">effetti</field>
+		<field name="report_name">effetti</field>
+		<field name="report_rml">StampaEffetti/report/distinta.jrxml</field>
+		<field name="report_type">pdf</field>
+        <field name="jasper_report">True</field>
+        <field name="jasper_output">pdf</field>	
+	</record>
+	
+
+	
+ </data>
+</openerp>

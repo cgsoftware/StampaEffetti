@@ -24,7 +24,7 @@
         
         <act_window id="action_view_stampa_effetti"
             key2="client_print_multi"
-            name="effetti"
+            name="Stampa Effetti"
             res_model="effetti.stampaII"
             src_model="effetti"
             view_mode="form" target="new" view_type="form" />
@@ -52,7 +52,7 @@
         
         <act_window id="action_view_stampa_distinte"
             key2="client_print_multi"
-            name="distinte"
+            name="Stampa Distinte"
             res_model="distinte.stampa"
             src_model="distinte.effetti"
             view_mode="form" target="new" view_type="form" />
