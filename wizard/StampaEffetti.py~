@@ -172,21 +172,21 @@ class stampa_distinte(osv.osv_memory):
     def  default_get(self, cr, uid, fields, context=None):
         #import pdb;pdb.set_trace()
         pool = pooler.get_pool(cr.dbname)
-        distinte = self.pool.get('distinte.effetti')
+        effetti = self.pool.get('effetti')
         active_ids = context and context.get('active_ids', [])
         Primo = True
         if active_ids:
-             for ordine in distinte.browse(cr, uid, active_ids, context=context):
+             for ordine in effetti.browse(cr, uid, active_ids, context=context):
                 if Primo:
                     Primo = False
-                    DtIni = ordine['data_distinta']
-                    name = ordine['name']
+                    DtIni = ordine['data_scadenza']
+                    name = ordine['distinta']
                                     
-                DtFin = ordine['data_distinta']
+                DtFin = ordine['data_scadenza']
                 anr = ordine['id']        
                 ord_cliente  = False
                 ord_data = False
-                name = ordine['name']
+                name = ordine['distinta']
         order_method = False             
         
         return{'dadata':DtIni, 'adata':DtFin, 'ord':order_method, 'name':name}
