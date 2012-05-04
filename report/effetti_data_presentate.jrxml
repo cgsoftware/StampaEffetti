@@ -33,8 +33,10 @@ FROM
      "public"."effetti" effetti LEFT OUTER JOIN "public"."effetti_scadenze" effetti_scadenze ON effetti."id" = effetti_scadenze."name"
      LEFT OUTER JOIN "public"."res_partner" res_partner ON effetti."cliente_id" = res_partner."id"
      LEFT OUTER JOIN "public"."res_bank" res_bank ON effetti."banca_patner" = res_bank."id"
-where to_date($P{adata},'YYYY-MM-DD')>=effetti."data_scadenza" and to_date($P{dadata},'YYYY-MM-DD')<=effetti."data_scadenza"
-ORDER BY effetti."data_scadenza"]]>
+where (length(effetti."distinta")=0 or effetti."distinta" isnull) and to_date($P{adata},'YYYY-MM-DD')>=effetti."data_scadenza" and to_date($P{dadata},'YYYY-MM-DD')<=effetti."data_scadenza"
+ORDER BY effetti."data_scadenza"
+
+ ]]>
 	</queryString>
 	<field name="effetti_cliente_id" class="java.lang.Integer"/>
 	<field name="effetti_name" class="java.lang.String"/>

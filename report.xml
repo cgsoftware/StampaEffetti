@@ -13,6 +13,17 @@
         <field name="jasper_output">pdf</field>
 	</record>
 	
+	<record id="report_distine_dataII" model="ir.actions.report.xml">
+        <field name="name">Stampa Distinte Presentate</field>
+        <field name="type">ir.actions.report.xml</field>
+        <field name="model">effetti</field>
+        <field name="report_name">DistintePresentate</field>
+        <field name="report_rml">StampaEffetti/report/effetti_data_presentate.jrxml</field>
+        <field name="report_type">pdf</field>
+        <field name="jasper_report">True</field>
+        <field name="jasper_output">pdf</field>
+	</record>
+	
 	<record id="report_distinte" model="ir.actions.report.xml">
         <field name="name">Stampa Distinte</field>
         <field name="type">ir.actions.report.xml</field>
@@ -45,6 +56,16 @@
         <field name="jasper_output">pdf</field>	
 	</record>
 	
+	<record id="report_distinte_banca" model="ir.actions.report.xml">
+		<field name="name">Stampa DistinteBanca</field>
+		<field name="type">ir.actions.report.xml</field>
+		<field name="model">effetti</field>
+		<field name="report_name">distintebanca</field>
+		<field name="report_rml">StampaEffetti/report/distintebanca.jrxml</field>
+		<field name="report_type">pdf</field>
+        <field name="jasper_report">True</field>
+        <field name="jasper_output">pdf</field>	
+	</record>
 
 	
  </data>

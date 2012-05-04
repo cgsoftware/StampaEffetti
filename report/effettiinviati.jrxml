@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Brogliaccio distinte" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty">
-	<property name="ireport.zoom" value="1.5"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Brogliaccio distinte" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="0.75"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="dadata" class="java.lang.String">
@@ -28,12 +28,17 @@
      effetti."data_scadenza" AS effetti_data_scadenza,
      res_bank."codice_cab" AS res_bank_codice_cab,
      res_bank."codice_abi" AS res_bank_codice_abi,
-     res_bank."name" AS res_bank_name
+     res_bank."name" AS res_bank_name,
+     effetti."id" AS effetti_id
 FROM
      "public"."effetti" effetti LEFT OUTER JOIN "public"."effetti_scadenze" effetti_scadenze ON effetti."id" = effetti_scadenze."name"
      LEFT OUTER JOIN "public"."res_partner" res_partner ON effetti."cliente_id" = res_partner."id"
      LEFT OUTER JOIN "public"."res_bank" res_bank ON effetti."banca_patner" = res_bank."id"
-where to_date($P{adata},'YYYY-MM-DD')>=effetti."data_scadenza" and to_date($P{dadata},'YYYY-MM-DD')<=effetti."data_scadenza"
+WHERE
+     effetti."data_scadenza" >= to_date($P{dadata},'YYYY-MM-DD')
+     and effetti."data_scadenza" <= to_date($P{adata},'YYYY-MM-DD')
+
+
 ORDER BY effetti."data_scadenza"]]>
 	</queryString>
 	<field name="effetti_cliente_id" class="java.lang.Integer"/>
@@ -53,6 +58,7 @@ ORDER BY effetti."data_scadenza"]]>
 	<field name="res_bank_codice_cab" class="java.lang.String"/>
 	<field name="res_bank_codice_abi" class="java.lang.String"/>
 	<field name="res_bank_name" class="java.lang.String"/>
+	<field name="effetti_id" class="java.lang.Integer"/>
 	<variable name="Totale" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[new Double($F{effetti_scadenze_importo_scadenza})]]></variableExpression>
 	</variable>
@@ -65,69 +71,69 @@ ORDER BY effetti."data_scadenza"]]>
 	<pageHeader>
 		<band height="52" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="2" width="555" height="15"/>
+				<reportElement x="0" y="2" width="802" height="15"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[BROGLIACCIO EFFETTI]]></text>
+				<text><![CDATA[BROGLIACCIO EFFETTI PRESENTATI E NON PRESENTATI]]></text>
 			</staticText>
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="14" splitType="Stretch">
+		<band height="15" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="50" height="10"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="8" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[N. Effetto]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="50" y="0" width="115" height="10"/>
+				<reportElement x="50" y="0" width="168" height="10"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="8" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Cliente]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="239" y="0" width="135" height="10"/>
+				<reportElement x="261" y="0" width="170" height="10"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="8" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Banca cliente]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="592" y="0" width="85" height="10"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<reportElement x="593" y="1" width="85" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Nr. Documento]]></text>
 			</staticText>
 			<staticText>
-				<reportElement stretchType="RelativeToBandHeight" x="677" y="0" width="50" height="10"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<reportElement stretchType="RelativeToBandHeight" x="678" y="1" width="50" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Data Scadenza]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="732" y="0" width="65" height="10"/>
+				<reportElement x="733" y="1" width="65" height="10"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Importo ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="440" y="1" width="99" height="13"/>
-				<textElement>
-					<font size="8"/>
+				<reportElement x="441" y="1" width="145" height="10"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isItalic="true"/>
 				</textElement>
-				<text><![CDATA[Distinta]]></text>
+				<text><![CDATA[Numero Distinta]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="11" splitType="Stretch">
+		<band height="12" splitType="Stretch">
 			<textField isBlankWhenNull="true">
 				<reportElement x="0" y="1" width="50" height="10"/>
 				<textElement>
@@ -135,43 +141,43 @@ ORDER BY effetti."data_scadenza"]]>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{effetti_name}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="50" y="1" width="189" height="10"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="50" y="1" width="200" height="10"/>
 				<textElement>
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{res_partner_name}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="239" y="1" width="135" height="10"/>
+				<reportElement x="261" y="1" width="170" height="10"/>
 				<textElement>
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{res_bank_name}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="592" y="1" width="85" height="10"/>
-				<textElement textAlignment="Right">
+				<reportElement x="593" y="2" width="85" height="10"/>
+				<textElement textAlignment="Center">
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{effetti_scadenze_numero_doc}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
-				<reportElement x="732" y="1" width="65" height="10"/>
+				<reportElement x="733" y="2" width="65" height="10"/>
 				<textElement textAlignment="Right">
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{effetti_scadenze_importo_scadenza}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="677" y="1" width="50" height="10"/>
-				<textElement textAlignment="Right" verticalAlignment="Top">
+				<reportElement x="678" y="2" width="50" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression class="java.util.Date"><![CDATA[$F{effetti_data_scadenza}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="440" y="1" width="109" height="10"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="441" y="1" width="145" height="10"/>
 				<textElement>
 					<font size="6"/>
 				</textElement>
@@ -183,19 +189,17 @@ ORDER BY effetti."data_scadenza"]]>
 		<band splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="47" splitType="Stretch">
+		<band height="54" splitType="Stretch">
 			<staticText>
-				<reportElement x="636" y="17" width="51" height="20"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<reportElement x="548" y="18" width="144" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Totale ]]></text>
 			</staticText>
 			<textField pattern="¤ #,##0.00">
-				<reportElement x="697" y="17" width="100" height="20"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="12"/>
-				</textElement>
+				<reportElement x="692" y="18" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{Totale}]]></textFieldExpression>
 			</textField>
 		</band>

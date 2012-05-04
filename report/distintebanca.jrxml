@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Distinte per Banca" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="adata" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dadata" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="banca" class="java.lang.Integer"/>
+	<parameter name="data1" class="java.lang.String"/>
+	<parameter name="data2" class="java.lang.String"/>
+	<parameter name="banca_name" class="java.lang.String"/>
+	<parameter name="name" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     distinte_effetti."name" AS distinte_effetti_name,
+     distinte_effetti."note" AS distinte_effetti_note,
+     effetti."cliente_id" AS effetti_cliente_id,
+     effetti."data_scadenza" AS effetti_data_scadenza,
+     effetti."name" AS effetti_name,
+     effetti."distinta" AS effetti_distinta,
+     effetti."banca_patner" AS effetti_banca_patner,
+     effetti."note" AS effetti_note,
+     effetti."contabilizzato" AS effetti_contabilizzato,
+     effetti."bolli" AS effetti_bolli,
+     effetti."importo_effetto" AS effetti_importo_effetto,
+     effetti_scadenze."totale_documento" AS effetti_scadenze_totale_documento,
+     effetti_scadenze."data_documento" AS effetti_scadenze_data_documento,
+     effetti_scadenze."scadenza_id" AS effetti_scadenze_scadenza_id,
+     effetti_scadenze."name" AS effetti_scadenze_name,
+     effetti_scadenze."pagamento" AS effetti_scadenze_pagamento,
+     effetti_scadenze."importo_scadenza" AS effetti_scadenze_importo_scadenza,
+     effetti_scadenze."numero_doc" AS effetti_scadenze_numero_doc,
+     res_partner."name" AS res_partner_name,
+     res_partner."fiscalcode" AS res_partner_fiscalcode,
+     res_partner."vat" AS res_partner_vat,
+     res_bank."name" AS res_bank_name,
+     res_bank."codice_abi" AS res_bank_codice_abi,
+     res_bank."codice_cab" AS res_bank_codice_cab,
+     res_bank_A."name" AS res_bank_A_name,
+     res_bank_A."codice_abi" AS res_bank_A_codice_abi,
+     res_bank_A."codice_cab" AS res_bank_A_codice_cab,
+     res_partner_bank."codice_sia" AS res_partner_bank_codice_sia,
+     distinte_effetti."banca_pres" AS distinte_effetti_banca_pres,
+     res_partner_bank."acc_number" AS res_partner_bank_acc_number,
+     distinte_effetti."data_distinta" AS distinte_effetti_data_distinta
+FROM
+     "public"."distinte_effetti" distinte_effetti LEFT OUTER JOIN "public"."distinte_effetti_righe" distinte_effetti_righe ON distinte_effetti."id" = distinte_effetti_righe."name"
+     LEFT OUTER JOIN "public"."effetti" effetti ON distinte_effetti_righe."effetto_id" = effetti."id"
+     LEFT OUTER JOIN "public"."effetti_scadenze" effetti_scadenze ON effetti."id" = effetti_scadenze."name"
+     LEFT OUTER JOIN "public"."res_partner" res_partner ON effetti."cliente_id" = res_partner."id"
+     LEFT OUTER JOIN "public"."res_bank" res_bank ON effetti."banca_patner" = res_bank."id"
+     LEFT OUTER JOIN "public"."res_partner_bank" res_partner_bank ON distinte_effetti."banca_pres" = res_partner_bank."id"
+     LEFT OUTER JOIN "public"."res_bank" res_bank_A ON res_partner_bank."bank" = res_bank_A."id"
+WHERE
+     effetti."data_scadenza" >= to_date($P{dadata},'YYYY-MM-DD') AND
+     effetti."data_scadenza" <= to_date($P{adata},'YYYY-MM-DD') AND
+     (distinte_effetti."banca_pres" = $P{banca}
+  OR $P{banca} = 0)
+ORDER BY
+     distinte_effetti."banca_pres" ASC,
+ distinte_effetti."name" ASC,
+     effetti."data_scadenza" ASC
+]]>
+	</queryString>
+	<field name="distinte_effetti_name" class="java.lang.String"/>
+	<field name="distinte_effetti_note" class="java.lang.String"/>
+	<field name="effetti_cliente_id" class="java.lang.Integer"/>
+	<field name="effetti_data_scadenza" class="java.sql.Date"/>
+	<field name="effetti_name" class="java.lang.String"/>
+	<field name="effetti_distinta" class="java.lang.String"/>
+	<field name="effetti_banca_patner" class="java.lang.Integer"/>
+	<field name="effetti_note" class="java.lang.String"/>
+	<field name="effetti_contabilizzato" class="java.lang.Boolean"/>
+	<field name="effetti_bolli" class="java.math.BigDecimal"/>
+	<field name="effetti_importo_effetto" class="java.math.BigDecimal"/>
+	<field name="effetti_scadenze_totale_documento" class="java.math.BigDecimal"/>
+	<field name="effetti_scadenze_data_documento" class="java.sql.Date"/>
+	<field name="effetti_scadenze_scadenza_id" class="java.lang.Integer"/>
+	<field name="effetti_scadenze_name" class="java.lang.Integer"/>
+	<field name="effetti_scadenze_pagamento" class="java.lang.Integer"/>
+	<field name="effetti_scadenze_importo_scadenza" class="java.math.BigDecimal"/>
+	<field name="effetti_scadenze_numero_doc" class="java.lang.String"/>
+	<field name="res_partner_name" class="java.lang.String"/>
+	<field name="res_partner_fiscalcode" class="java.lang.String"/>
+	<field name="res_partner_vat" class="java.lang.String"/>
+	<field name="res_bank_name" class="java.lang.String"/>
+	<field name="res_bank_codice_abi" class="java.lang.String"/>
+	<field name="res_bank_codice_cab" class="java.lang.String"/>
+	<field name="res_bank_a_name" class="java.lang.String"/>
+	<field name="res_bank_a_codice_abi" class="java.lang.String"/>
+	<field name="res_bank_a_codice_cab" class="java.lang.String"/>
+	<field name="res_partner_bank_codice_sia" class="java.lang.String"/>
+	<field name="distinte_effetti_banca_pres" class="java.lang.Integer"/>
+	<field name="res_partner_bank_acc_number" class="java.lang.String"/>
+	<field name="distinte_effetti_data_distinta" class="java.sql.Date"/>
+	<variable name="Totale" class="java.lang.Double" resetType="Group" resetGroup="Banca" calculation="Sum">
+		<variableExpression><![CDATA[new Double($F{effetti_scadenze_importo_scadenza})]]></variableExpression>
+	</variable>
+	<variable name="Totale_1" class="java.lang.Double" resetType="Group" resetGroup="distinta" calculation="Sum">
+		<variableExpression><![CDATA[new Double($F{effetti_scadenze_importo_scadenza})]]></variableExpression>
+	</variable>
+	<variable name="variable1" class="java.lang.String"/>
+	<variable name="Totale_gen" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[new Double($F{effetti_scadenze_importo_scadenza})]]></variableExpression>
+	</variable>
+	<group name="Banca" isStartNewPage="true" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{distinte_effetti_banca_pres}]]></groupExpression>
+		<groupHeader>
+			<band height="32">
+				<elementGroup/>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="4" width="181" height="20" forecolor="#EEF700" backcolor="#3027E5"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Banca di Presentazione]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="-247" y="11" width="191" height="10" forecolor="#003BA9"/>
+					<textElement>
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{effetti_distinta}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement mode="Opaque" x="174" y="4" width="302" height="20" forecolor="#EEF700" backcolor="#3027E5"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font isBold="true" isItalic="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{res_partner_bank_acc_number}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="37">
+				<staticText>
+					<reportElement x="257" y="12" width="144" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Totale Banca]]></text>
+				</staticText>
+				<textField pattern="¤ #,##0.00">
+					<reportElement x="435" y="12" width="120" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$V{Totale}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="distinta" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{distinte_effetti_name}]]></groupExpression>
+		<groupHeader>
+			<band height="55">
+				<rectangle>
+					<reportElement x="0" y="0" width="555" height="50" forecolor="#CFCFCF" backcolor="#CFCFCF"/>
+				</rectangle>
+				<staticText>
+					<reportElement x="0" y="40" width="50" height="10" forecolor="#003BA9"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isItalic="true"/>
+					</textElement>
+					<text><![CDATA[N. Effetto]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="50" y="40" width="115" height="10" forecolor="#003BA9"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isItalic="true"/>
+					</textElement>
+					<text><![CDATA[Cliente]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="165" y="40" width="135" height="10" forecolor="#003BA9"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isItalic="true"/>
+					</textElement>
+					<text><![CDATA[Banca cliente]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="305" y="40" width="20" height="10" forecolor="#003BA9"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isItalic="true"/>
+					</textElement>
+					<text><![CDATA[ABI]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="327" y="40" width="20" height="10" forecolor="#003BA9"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isItalic="true"/>
+					</textElement>
+					<text><![CDATA[CAB]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="350" y="40" width="85" height="10" forecolor="#003BA9"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isItalic="true"/>
+					</textElement>
+					<text><![CDATA[Nr. Documento]]></text>
+				</staticText>
+				<staticText>
+					<reportElement stretchType="RelativeToBandHeight" x="435" y="40" width="71" height="10" forecolor="#003BA9"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isItalic="true"/>
+					</textElement>
+					<text><![CDATA[Data Scadenza]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="490" y="40" width="65" height="10" forecolor="#003BA9"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isItalic="true"/>
+					</textElement>
+					<text><![CDATA[Importo ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="3" width="70" height="10" forecolor="#003BA9"/>
+					<textElement>
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Distinta n.]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="0" y="13" width="191" height="10" forecolor="#003BA9"/>
+					<textElement>
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{effetti_distinta}]]></textFieldExpression>
+				</textField>
+				<elementGroup>
+					<staticText>
+						<reportElement x="243" y="0" width="121" height="10" forecolor="#003BA9"/>
+						<textElement>
+							<font size="8" isBold="true"/>
+						</textElement>
+						<text><![CDATA[Banca di presentazione]]></text>
+					</staticText>
+					<textField>
+						<reportElement x="364" y="0" width="175" height="10" forecolor="#003BA9"/>
+						<textElement>
+							<font size="8" isBold="true"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{res_bank_a_name}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement x="266" y="10" width="51" height="10" forecolor="#003BA9"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{res_bank_a_codice_abi}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement x="347" y="10" width="45" height="10" forecolor="#003BA9"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{res_bank_a_codice_cab}]]></textFieldExpression>
+					</textField>
+					<staticText>
+						<reportElement x="247" y="10" width="19" height="10" forecolor="#003BA9"/>
+						<textElement>
+							<font size="8" isBold="true"/>
+						</textElement>
+						<text><![CDATA[ABI]]></text>
+					</staticText>
+					<staticText>
+						<reportElement x="328" y="10" width="19" height="10" forecolor="#003BA9"/>
+						<textElement>
+							<font size="8" isBold="true"/>
+						</textElement>
+						<text><![CDATA[CAB]]></text>
+					</staticText>
+					<staticText>
+						<reportElement x="392" y="10" width="19" height="10" forecolor="#003BA9"/>
+						<textElement>
+							<font size="8" isBold="true"/>
+						</textElement>
+						<text><![CDATA[SIA]]></text>
+					</staticText>
+					<textField>
+						<reportElement x="411" y="10" width="128" height="10" forecolor="#003BA9"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{res_partner_bank_codice_sia}]]></textFieldExpression>
+					</textField>
+				</elementGroup>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="50">
+				<textField pattern="¤ #,##0.00">
+					<reportElement x="435" y="14" width="120" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$V{Totale_1}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="257" y="14" width="144" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Totale Distinta]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="36" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="245" height="15"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Stampa delle distinte presentate su Banca:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="236" y="0" width="286" height="15">
+					<printWhenExpression><![CDATA[$P{banca_name} != "vuoto"]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{banca_name}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="21" y="15" width="79" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{data1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="121" y="15" width="94" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{data2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="15" width="21" height="15"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[dal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="15" width="21" height="15"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[al]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement x="522" y="0" width="33" height="13"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="489" y="0" width="26" height="15"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pag.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="245" height="15"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mainetti Omaf S.r.l.]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="1" width="50" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{effetti_name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="50" y="1" width="115" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{res_partner_name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="165" y="1" width="135" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{res_bank_name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="305" y="1" width="20" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{res_bank_codice_abi}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="329" y="1" width="20" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{res_bank_codice_cab}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="350" y="1" width="85" height="10"/>
+				<textElement textAlignment="Center">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{effetti_scadenze_numero_doc}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="490" y="1" width="65" height="10"/>
+				<textElement textAlignment="Center">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{effetti_scadenze_importo_scadenza}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="435" y="1" width="50" height="10"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{effetti_data_scadenza}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="15" width="555" height="1"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="13" splitType="Stretch"/>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="25">
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="435" y="0" width="120" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{Totale_gen}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="257" y="0" width="144" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Totale Generale]]></text>
+			</staticText>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

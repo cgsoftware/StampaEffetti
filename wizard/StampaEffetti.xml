@@ -10,6 +10,7 @@
                         <field name="dadata" colspan="4" />
                         <field name="adata" colspan="4" />
                         <field name="ord" colspan="4"/>
+                        <field name="presentati" colspan="4"/>
                         <separator colspan="4"/>
                         <group col="4" colspan="4">
                             <button icon="gtk-cancel" special="cancel" string="Cancel" colspan="2"/>
@@ -56,7 +57,35 @@
             res_model="distinte.stampa"
             src_model="distinte.effetti"
             view_mode="form" target="new" view_type="form" />
+            
+            
+        <record id="view_stampa_effetti_banca" model="ir.ui.view">
+            <field name="name">stampaeffeti.banca</field>
+            <field name="model">stampa.effetti.banca</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                    <form string="Parametri di Stampa"  >
+                        <field name="banca" colspan="4"  domain="[('partner_id', '=', company_partner_id)]"/>
+                        <field name="dadata" colspan="4" />
+                        <field name="adata" colspan="4" />
+                        
+                        
+                        <separator colspan="4"/>
+                        <group col="4" colspan="4">
+                            <button icon="gtk-cancel" special="cancel" string="Cancel" colspan="2"/>
+                            <button icon="gtk-print" name="check_report" string="Stampa" type="object" colspan="2" default_focus="1" />
+                        </group>
+                    </form>
+                
+            </field>
+        </record>
         
+        <act_window id="action_view_stampa_effetti_banca"
+            key2="client_print_multi"
+            name="Stampa Effetti ordinati per Banca"
+            res_model="stampa.effetti.banca"
+            src_model="distinte.effetti"
+            view_mode="form" target="new" view_type="form" />
         
     </data>
 </openerp>
